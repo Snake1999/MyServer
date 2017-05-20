@@ -36,6 +36,11 @@ public class BlockIdentifier {
         return stringId.hashCode();
     }
 
+    @Override
+    public String toString() {
+        return String.format("BlockIdentifier[%s]", stringId);
+    }
+
     ///////////////////////////////////////////////////////////////////////////
     // Internal
     ///////////////////////////////////////////////////////////////////////////

@@ -46,6 +46,11 @@ public final class BlockPosition {
         return Integer.hashCode(blockX) ^ Integer.hashCode(blockY) ^ Integer.hashCode(blockZ);
     }
 
+    @Override
+    public String toString() {
+        return String.format("BlockPosition[x=%d, y=%d, z=%d]", blockX, blockY, blockZ);
+    }
+
     ///////////////////////////////////////////////////////////////////////////
     // Internal
     ///////////////////////////////////////////////////////////////////////////
