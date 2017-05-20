@@ -1,5 +1,6 @@
 package com.snake1999.myserver;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -17,19 +18,19 @@ public final class BlockPosition {
     public static boolean equals(BlockPosition a, BlockPosition b) {
         Objects.requireNonNull(a, Messages.block_position_can_not_be_null);
         Objects.requireNonNull(b, Messages.block_position_can_not_be_null);
-        return a.blockX == b.blockX && a.blockY == b.blockY && a.blockZ == b.blockZ;
+        return Arrays.equals(a.payload, b.payload);
     }
 
     public int getBlockX() {
-        return blockX;
+        return payload[0];
     }
 
     public int getBlockY() {
-        return blockY;
+        return payload[1];
     }
 
     public int getBlockZ() {
-        return blockZ;
+        return payload[2];
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -43,23 +44,23 @@ public final class BlockPosition {
 
     @Override
     public int hashCode() {
-        return Integer.hashCode(blockX) ^ Integer.hashCode(blockY) ^ Integer.hashCode(blockZ);
+        return Integer.hashCode(getBlockX()) ^ Integer.hashCode(getBlockY()) ^ Integer.hashCode(getBlockZ());
     }
 
     @Override
     public String toString() {
-        return String.format("BlockPosition[x=%d, y=%d, z=%d]", blockX, blockY, blockZ);
+        return String.format("BlockPosition[x=%d, y=%d, z=%d]", getBlockX(), getBlockY(), getBlockZ());
     }
 
     ///////////////////////////////////////////////////////////////////////////
     // Internal
     ///////////////////////////////////////////////////////////////////////////
 
-    private int blockX, blockY, blockZ;
+    // package-local for BlockRange class.
 
-    private BlockPosition(int blockX, int blockY, int blockZ) {
-        this.blockX = blockX;
-        this.blockY = blockY;
-        this.blockZ = blockZ;
+    int[] payload = new int[3]; //blockX, blockY, blockZ
+
+    private BlockPosition(int... payload) {
+        System.arraycopy(payload, 0, this.payload, 0, 3);
     }
 }
