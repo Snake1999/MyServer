@@ -3,6 +3,8 @@ package com.snake1999.myserver;
 import java.util.Arrays;
 import java.util.Objects;
 
+import static com.snake1999.myserver.Dimensions.DIMENSION_COUNT;
+
 /**
  * Immutable class declaring positions of blocks.
  *
@@ -56,11 +58,9 @@ public final class BlockPosition {
     // Internal
     ///////////////////////////////////////////////////////////////////////////
 
-    // package-local for BlockRange class.
-
-    int[] payload = new int[3]; //blockX, blockY, blockZ
+    int[] payload = new int[DIMENSION_COUNT]; //blockX, blockY, blockZ
 
     private BlockPosition(int... payload) {
-        System.arraycopy(payload, 0, this.payload, 0, 3);
+        System.arraycopy(payload, 0, this.payload, 0, DIMENSION_COUNT);
     }
 }

@@ -2,6 +2,9 @@ package com.snake1999.myserver;
 
 import java.util.*;
 
+import static com.snake1999.myserver.Dimensions.DIMENSION_COUNT;
+import static com.snake1999.myserver.Dimensions.dimensions;
+
 /**
  * By lmlstarqaq http://snake1999.com/
  * Creation time: 2017/5/20 12:06.
@@ -18,30 +21,21 @@ public final class BlockRange {
 //    }
 //
     public static BlockRange infinite() {
-        return new BlockRange(Collections.emptySet(), Collections.emptySet(), true);
+        return new BlockRange(BitSet.valueOf(new long[]{0b1L}), emptySliceSet());
     }
 
     public static BlockRange empty() {
-        return new BlockRange(Collections.emptySet(), Collections.emptySet(), false);
+        return new BlockRange(BitSet.valueOf(new long[]{0b0L}), emptySliceSet());
     }
 
-    public static BlockRange rangeNot(BlockRange range) {
-        return new BlockRange(range.excepts, range.takes, !range.takeInfinite); // TODO: 2017/5/20 check
-    }
+//    public static BlockRange logicNot(BlockRange range) {}
 //
-//    public static BlockRange rangeAnd(BlockRange... ranges) {}
+//    public static BlockRange logicAnd(BlockRange... ranges) {}
 //
-//    public static BlockRange rangeOr(BlockRange... ranges) {}
+//    public static BlockRange logicOr(BlockRange... ranges) {}
 //
-//    public static BlockRange rangeXor(BlockRange... ranges) {}
+//    public static BlockRange logicXor(BlockRange... ranges) {}
 
-    public boolean isEmpty() {
-        return isEmpty0();
-    }
-
-    public boolean contains(BlockPosition position) {
-        return contains0(position);
-    }
 
     ///////////////////////////////////////////////////////////////////////////
     // Override
@@ -51,48 +45,36 @@ public final class BlockRange {
     // Internal
     ///////////////////////////////////////////////////////////////////////////
 
-    private Set<CubeBR> takes = new HashSet<>();
-    private Set<CubeBR> excepts = new HashSet<>();
-    private boolean takeInfinite;
+    // boolean payload[d0 + d1*size0 + d2*size1*size0] taken(d0, d1, d2);
+    private BitSet payload;
+    // e.g.: slices[0] = {10, 20}, divides the space into 3 parts (-inf, 10], (10, 20], (20, inf)
+    private Set<Integer>[] slices;
 
-    private BlockRange(Set<CubeBR> takes, Set<CubeBR> excepts, boolean takeInfinite) {
-        this.takes.addAll(takes);
-        this.excepts.addAll(excepts);
-        this.takeInfinite = takeInfinite;
+    private static Set<Integer>[] emptySliceSet() {
+        @SuppressWarnings("unchecked")
+        Set<Integer>[] ans = (Set<Integer>[]) new Set[DIMENSION_COUNT];
+        Arrays.fill(ans, Collections.emptySet());
+        return ans;
     }
 
-    private boolean contains0(BlockPosition position) {
-        if(!takeInfinite)
-            return takes.stream().anyMatch(c -> c.contains(position))
-                    && excepts.stream().noneMatch(c -> c.contains(position));
-        else return excepts.stream().noneMatch(c -> c.contains(position));
+    private BlockRange(BitSet payload, Set<Integer>[] slices) {
+        this.payload = payload;
+        this.slices = slices;
     }
 
-    private boolean isEmpty0() {
-        return takes.size() > 0; // TODO: 2017/5/20 OPERATION AND
-    }
+//    private boolean contains(BlockPosition position) {
+//        dimensions().forEach(i -> );
+//    }
 
-    private static class CubeBR {
-        int[] payload = new int[6]; //x1, x2, y1, y2, z1, z2
-        private CubeBR(int[] payload){
-            System.arraycopy(payload, 0, payload, 0, 6);
-            for (int i = 0; i <= 2; i++) {
-                int p1 = 2 * i, p2 = 2 * i + 1;
-                int min = Math.min(payload[p1], payload[p2]);
-                int max = Math.max(payload[p1], payload[p2]);
-                payload[p1] = min; payload[p2] = max;
-            }
-        }
-        private boolean contains(BlockPosition position) {
-            for (int i = 0; i <= 2; i++)
-                if (position.payload[i] >= payload[2 * i] &&
-                        position.payload[i] <= payload[2 * i + 1])
-                    return true;
-            return false;
-        }
-        private boolean isEmpty() {
-            return false; // TODO: 2017/5/20
-        }
-    }
+//    private int indexOfPayload(BlockPosition position) {
+//        dimensions().forEach(i -> {
+//            // slices[i] => {10, 20} => (-inf, 10], (10, 20], (20, inf)
+//            // position.payload[i] => 10/11/20/30
+//            // findFirst => absent/
+//            slices[i].stream().sorted(Integer::compareTo)
+//                    .filter(d -> position.payload[i] > d)
+//                    .findFirst()
+//        });
+//    }
 
 }
