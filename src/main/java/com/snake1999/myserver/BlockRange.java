@@ -47,7 +47,7 @@ public final class BlockRange {
 
     // boolean payload[d0 + d1*size0 + d2*size1*size0] taken(d0, d1, d2);
     private BitSet payload;
-    // e.g.: slices[0] = {10, 20}, divides the space into 3 parts (-inf, 10], (10, 20], (20, inf)
+    // e.g.: slices[0] = {10, 20}, divides the space into 3 parts (-inf, 10), [10, 20), [20, inf)
     private Set<Integer>[] slices;
 
     private static Set<Integer>[] emptySliceSet() {
@@ -62,19 +62,27 @@ public final class BlockRange {
         this.slices = slices;
     }
 
-//    private boolean contains(BlockPosition position) {
-//        dimensions().forEach(i -> );
-//    }
+    private boolean contains(BlockPosition position) {
+        dimensions().forEach(i -> );
+    }
 
-//    private int indexOfPayload(BlockPosition position) {
-//        dimensions().forEach(i -> {
-//            // slices[i] => {10, 20} => (-inf, 10], (10, 20], (20, inf)
-//            // position.payload[i] => 10/11/20/30
-//            // findFirst => absent/
-//            slices[i].stream().sorted(Integer::compareTo)
-//                    .filter(d -> position.payload[i] > d)
-//                    .findFirst()
-//        });
-//    }
+    private int indexOfPayload(BlockPosition position) {
+        final int[] mul = {1};
+        dimensions().map(i -> {
+            /*
+             * slices[i] => {10, 20} =>
+             * position.payload[i]  (-inf, 10), [10, 20), [20, inf)
+             * value of s
+             *              10      p<s         p>=s        p>=s
+             *              20      p<s         p<s         p>=s
+             *   count of 'p>=s'    0           1           2
+             */
+            long count = slices[i].stream().sorted(Integer::compareTo)
+                    .filter(s -> position.payload[i] >= s)
+                    .count();
+            int ans = 
+            mul[0] *= count;
+        }).sum();
+    }
 
 }
