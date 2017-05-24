@@ -68,7 +68,7 @@ public final class BlockRange {
 
     private int indexOfPayload(BlockPosition position) {
         final int[] mul = {1};
-        dimensions().map(i -> {
+        return dimensions().map(i -> {
             /*
              * slices[i] => {10, 20} =>
              * position.payload[i]  (-inf, 10), [10, 20), [20, inf)
@@ -80,8 +80,9 @@ public final class BlockRange {
             long count = slices[i].stream().sorted(Integer::compareTo)
                     .filter(s -> position.payload[i] >= s)
                     .count();
-            int ans = 
+            int ans = (int)count * mul[0];
             mul[0] *= count;
+            return ans;
         }).sum();
     }
 
