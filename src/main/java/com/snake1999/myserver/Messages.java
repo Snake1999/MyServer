@@ -6,12 +6,12 @@ package com.snake1999.myserver;
  */
 final class Messages {
 
-    static String block_identifier_can_not_be_null = "BlockIdentifier can not be null";
-    static String block_position_can_not_be_null = "BlockPosition can not be null";
-    static String string_id_can_not_be_null = "String identifiers can not be null";
+  static String block_identifier_can_not_be_null = "BlockIdentifier can not be null";
+  static String block_position_can_not_be_null = "BlockPosition can not be null";
+  static String string_id_can_not_be_null = "String identifiers can not be null";
 
-    private Messages() {
-        //no instance
-    }
+  private Messages() {
+    //no instance
+  }
 
 }

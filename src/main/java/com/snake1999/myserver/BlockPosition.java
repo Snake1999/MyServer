@@ -3,7 +3,7 @@ package com.snake1999.myserver;
 import java.util.Arrays;
 import java.util.Objects;
 
-import static com.snake1999.myserver.Dimensions.DIMENSION_COUNT;
+import static com.snake1999.myserver.Dimensions.*;
 
 /**
  * Immutable class declaring positions of blocks.
@@ -13,54 +13,65 @@ import static com.snake1999.myserver.Dimensions.DIMENSION_COUNT;
  */
 public final class BlockPosition {
 
-    public static BlockPosition of(int blockX, int blockY, int blockZ) {
-        return new BlockPosition(blockX, blockY, blockZ);
-    }
+  public static BlockPosition of(int blockX, int blockY, int blockZ) {
+    return new BlockPosition(blockX, blockY, blockZ);
+  }
 
-    public static boolean equals(BlockPosition a, BlockPosition b) {
-        Objects.requireNonNull(a, Messages.block_position_can_not_be_null);
-        Objects.requireNonNull(b, Messages.block_position_can_not_be_null);
-        return Arrays.equals(a.payload, b.payload);
-    }
+  public static boolean equals(BlockPosition a, BlockPosition b) {
+    Objects.requireNonNull(a, Messages.block_position_can_not_be_null);
+    Objects.requireNonNull(b, Messages.block_position_can_not_be_null);
+    return Arrays.equals(a.payload, b.payload);
+  }
 
-    public int getBlockX() {
-        return payload[0];
-    }
+  public int getBlockX() {
+    return payload[DIMENSION_X];
+  }
 
-    public int getBlockY() {
-        return payload[1];
-    }
+  public int getBlockY() {
+    return payload[DIMENSION_Y];
+  }
 
-    public int getBlockZ() {
-        return payload[2];
-    }
+  public int getBlockZ() {
+    return payload[DIMENSION_Z];
+  }
 
-    ///////////////////////////////////////////////////////////////////////////
-    // Override
-    ///////////////////////////////////////////////////////////////////////////
+  public BlockPosition addXYZ(int deltaX, int deltaY, int deltaZ) {
+    return copyAndAddPayload(deltaX, deltaY, deltaZ);
+  }
 
-    @Override
-    public boolean equals(Object obj) {
-        return obj instanceof BlockPosition && equals(this, (BlockPosition) obj);
-    }
+  ///////////////////////////////////////////////////////////////////////////
+  // Override
+  ///////////////////////////////////////////////////////////////////////////
 
-    @Override
-    public int hashCode() {
-        return Integer.hashCode(getBlockX()) ^ Integer.hashCode(getBlockY()) ^ Integer.hashCode(getBlockZ());
-    }
+  @Override
+  public boolean equals(Object obj) {
+    return obj instanceof BlockPosition && equals(this, (BlockPosition) obj);
+  }
 
-    @Override
-    public String toString() {
-        return String.format("BlockPosition[x=%d, y=%d, z=%d]", getBlockX(), getBlockY(), getBlockZ());
-    }
+  @Override
+  public int hashCode() {
+    return Integer.hashCode(getBlockX()) ^ Integer.hashCode(getBlockY()) ^ Integer.hashCode(getBlockZ());
+  }
 
-    ///////////////////////////////////////////////////////////////////////////
-    // Internal
-    ///////////////////////////////////////////////////////////////////////////
+  @Override
+  public String toString() {
+    return String.format("BlockPosition[x=%d, y=%d, z=%d]", getBlockX(), getBlockY(), getBlockZ());
+  }
 
-    int[] payload = new int[DIMENSION_COUNT]; //blockX, blockY, blockZ
+  ///////////////////////////////////////////////////////////////////////////
+  // Internal
+  ///////////////////////////////////////////////////////////////////////////
 
-    private BlockPosition(int... payload) {
-        System.arraycopy(payload, 0, this.payload, 0, DIMENSION_COUNT);
-    }
+  int[] payload = new int[DIMENSION_COUNT]; //blockX, blockY, blockZ
+
+  private BlockPosition(int... payload) {
+    System.arraycopy(payload, 0, this.payload, 0, DIMENSION_COUNT);
+  }
+
+  private BlockPosition copyAndAddPayload(int... payload) {
+    int[] newPayload = new int[DIMENSION_COUNT];
+    System.arraycopy(this.payload, 0, newPayload,0, DIMENSION_COUNT);
+    for (int i = 0; i < newPayload.length; i++) newPayload[i] += payload[i];
+    return new BlockPosition(newPayload);
+  }
 }
