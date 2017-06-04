@@ -1,6 +1,6 @@
 package com.snake1999.myserver.test;
 
-import com.snake1999.myserver.BlockIdentifier;
+import com.snake1999.myserver.core.BlockIdentifier;
 
 /**
  * By lmlstarqaq http://snake1999.com/

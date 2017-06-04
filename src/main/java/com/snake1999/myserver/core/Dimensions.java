@@ -1,4 +1,4 @@
-package com.snake1999.myserver;
+package com.snake1999.myserver.core;
 
 import java.util.stream.IntStream;
 

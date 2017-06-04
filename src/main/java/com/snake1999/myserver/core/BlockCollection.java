@@ -1,4 +1,4 @@
-package com.snake1999.myserver;
+package com.snake1999.myserver.core;
 
 /**
  * By lmlstarqaq http://snake1999.com/

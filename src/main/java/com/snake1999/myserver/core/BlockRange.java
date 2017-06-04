@@ -1,15 +1,9 @@
-package com.snake1999.myserver;
+package com.snake1999.myserver.core;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.function.Supplier;
-import java.util.function.ToIntFunction;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import static com.snake1999.myserver.Dimensions.DIMENSION_COUNT;
-import static com.snake1999.myserver.Dimensions.DIMENSION_Z;
-import static com.snake1999.myserver.Dimensions.dimensions;
 
 /**
  * By lmlstarqaq http://snake1999.com/
@@ -19,7 +13,7 @@ public final class BlockRange {
 
   public static BlockRange expandedCubeContains(BlockPosition... contained) {
     if(contained.length == 0) return empty();
-    List<Set<Integer>> slices = dimensions().mapToObj(i ->{
+    List<Set<Integer>> slices = Dimensions.dimensions().mapToObj(i ->{
       IntSummaryStatistics s = Arrays.stream(contained).map(bp -> bp.payload[i]).mapToInt(ii -> ii).summaryStatistics();
       return new HashSet<Integer>() {{add(s.getMax() + 1); add(s.getMin());}};
     }).collect(Collectors.toList());
@@ -83,7 +77,7 @@ public final class BlockRange {
 
   private static List<Set<Integer>> emptySlices() {
 
-    return Stream.generate((Supplier<HashSet<Integer>>) HashSet::new).limit(DIMENSION_COUNT).collect(Collectors.toList());
+    return Stream.generate((Supplier<HashSet<Integer>>) HashSet::new).limit(Dimensions.DIMENSION_COUNT).collect(Collectors.toList());
   }
 
   private BlockRange(BitSet payload, List<Set<Integer>> slices) {
@@ -118,7 +112,7 @@ public final class BlockRange {
 //    .map(a -> a + "!").reduce(String::concat).orElse(""));
 
     //    System.out.println(ans);
-    return (int) dimensions().mapToLong(i ->
+    return (int) Dimensions.dimensions().mapToLong(i ->
             Math.multiplyExact(
                     slices.get(i).stream().filter(s -> position.payload[i] >= s).count(),
                     sizeOfDimension(i, slices)
@@ -128,7 +122,7 @@ public final class BlockRange {
 
   private static long sizeOfDimension(int dimension, List<Set<Integer>> slices) {
     if(dimension == 0) return 1;
-    else return dimensions().limit(dimension).map(d -> slices.get(d).size() + 1).asLongStream()
+    else return Dimensions.dimensions().limit(dimension).map(d -> slices.get(d).size() + 1).asLongStream()
             .reduce(Math::multiplyExact).orElse(0);
   }
 

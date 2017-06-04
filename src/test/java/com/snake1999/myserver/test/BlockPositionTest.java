@@ -1,6 +1,6 @@
 package com.snake1999.myserver.test;
 
-import com.snake1999.myserver.BlockPosition;
+import com.snake1999.myserver.core.BlockPosition;
 
 /**
  * By lmlstarqaq http://snake1999.com/

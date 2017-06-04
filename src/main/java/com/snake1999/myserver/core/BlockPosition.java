@@ -1,9 +1,7 @@
-package com.snake1999.myserver;
+package com.snake1999.myserver.core;
 
 import java.util.Arrays;
 import java.util.Objects;
-
-import static com.snake1999.myserver.Dimensions.*;
 
 /**
  * Immutable class declaring positions of blocks.
@@ -24,15 +22,15 @@ public final class BlockPosition {
   }
 
   public int getBlockX() {
-    return payload[DIMENSION_X];
+    return payload[Dimensions.DIMENSION_X];
   }
 
   public int getBlockY() {
-    return payload[DIMENSION_Y];
+    return payload[Dimensions.DIMENSION_Y];
   }
 
   public int getBlockZ() {
-    return payload[DIMENSION_Z];
+    return payload[Dimensions.DIMENSION_Z];
   }
 
   public BlockPosition addXYZ(int deltaX, int deltaY, int deltaZ) {
@@ -62,15 +60,15 @@ public final class BlockPosition {
   // Internal
   ///////////////////////////////////////////////////////////////////////////
 
-  int[] payload = new int[DIMENSION_COUNT]; //blockX, blockY, blockZ
+  int[] payload = new int[Dimensions.DIMENSION_COUNT]; //blockX, blockY, blockZ
 
   private BlockPosition(int... payload) {
-    System.arraycopy(payload, 0, this.payload, 0, DIMENSION_COUNT);
+    System.arraycopy(payload, 0, this.payload, 0, Dimensions.DIMENSION_COUNT);
   }
 
   private BlockPosition copyAndAddPayload(int... payload) {
-    int[] newPayload = new int[DIMENSION_COUNT];
-    System.arraycopy(this.payload, 0, newPayload,0, DIMENSION_COUNT);
+    int[] newPayload = new int[Dimensions.DIMENSION_COUNT];
+    System.arraycopy(this.payload, 0, newPayload,0, Dimensions.DIMENSION_COUNT);
     for (int i = 0; i < newPayload.length; i++) newPayload[i] += payload[i];
     return new BlockPosition(newPayload);
   }

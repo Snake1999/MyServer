@@ -1,7 +1,7 @@
 package com.snake1999.myserver.test;
 
-import com.snake1999.myserver.BlockPosition;
-import com.snake1999.myserver.BlockRange;
+import com.snake1999.myserver.core.BlockPosition;
+import com.snake1999.myserver.core.BlockRange;
 
 import java.util.stream.Stream;
 
