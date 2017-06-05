@@ -14,7 +14,7 @@ public final class BlockRange {
   public static BlockRange expandedCubeContains(BlockPosition... contained) {
     if(contained.length == 0) return empty();
     List<Set<Integer>> slices = Dimensions.dimensions().mapToObj(i ->{
-      IntSummaryStatistics s = Arrays.stream(contained).map(bp -> bp.payload[i]).mapToInt(ii -> ii).summaryStatistics();
+      IntSummaryStatistics s = Arrays.stream(contained).map(bp -> bp.payload.get(i)).mapToInt(ii -> ii).summaryStatistics();
       return new HashSet<Integer>() {{add(s.getMax() + 1); add(s.getMin());}};
     }).collect(Collectors.toList());
     BitSet payload = BitSet.valueOf(new long[]{0b000_010_000__000_000_000L});
@@ -114,7 +114,7 @@ public final class BlockRange {
     //    System.out.println(ans);
     return (int) Dimensions.dimensions().mapToLong(i ->
             Math.multiplyExact(
-                    slices.get(i).stream().filter(s -> position.payload[i] >= s).count(),
+                    slices.get(i).stream().filter(s -> position.payload.get(i) >= s).count(),
                     sizeOfDimension(i, slices)
             )
     ).sum();

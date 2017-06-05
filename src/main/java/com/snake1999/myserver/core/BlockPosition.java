@@ -1,7 +1,8 @@
 package com.snake1999.myserver.core;
 
-import java.util.Arrays;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Immutable class declaring positions of blocks.
@@ -12,25 +13,25 @@ import java.util.Objects;
 public final class BlockPosition {
 
   public static BlockPosition of(int blockX, int blockY, int blockZ) {
-    return new BlockPosition(blockX, blockY, blockZ);
+    return new BlockPosition(List.of(blockX, blockY, blockZ));
   }
 
   public static boolean equals(BlockPosition a, BlockPosition b) {
     Objects.requireNonNull(a, Messages.block_position_can_not_be_null);
     Objects.requireNonNull(b, Messages.block_position_can_not_be_null);
-    return Arrays.equals(a.payload, b.payload);
+    return Objects.equals(a.payload, b.payload);
   }
 
   public int getBlockX() {
-    return payload[Dimensions.DIMENSION_X];
+    return payload.get(Dimensions.DIMENSION_X);
   }
 
   public int getBlockY() {
-    return payload[Dimensions.DIMENSION_Y];
+    return payload.get(Dimensions.DIMENSION_Y);
   }
 
   public int getBlockZ() {
-    return payload[Dimensions.DIMENSION_Z];
+    return payload.get(Dimensions.DIMENSION_Z);
   }
 
   public BlockPosition addXYZ(int deltaX, int deltaY, int deltaZ) {
@@ -48,7 +49,7 @@ public final class BlockPosition {
 
   @Override
   public int hashCode() {
-    return Integer.hashCode(getBlockX()) ^ Integer.hashCode(getBlockY()) ^ Integer.hashCode(getBlockZ());
+    return this.payload.stream().map(i -> Integer.hashCode(i)).reduce((a, b) -> a^b).orElse(0);
   }
 
   @Override
@@ -60,16 +61,16 @@ public final class BlockPosition {
   // Internal
   ///////////////////////////////////////////////////////////////////////////
 
-  int[] payload = new int[Dimensions.DIMENSION_COUNT]; //blockX, blockY, blockZ
+  List<Integer> payload;
 
-  private BlockPosition(int... payload) {
-    System.arraycopy(payload, 0, this.payload, 0, Dimensions.DIMENSION_COUNT);
+  private BlockPosition(List<Integer> payload) {
+    this.payload = payload;
   }
 
   private BlockPosition copyAndAddPayload(int... payload) {
-    int[] newPayload = new int[Dimensions.DIMENSION_COUNT];
-    System.arraycopy(this.payload, 0, newPayload,0, Dimensions.DIMENSION_COUNT);
-    for (int i = 0; i < newPayload.length; i++) newPayload[i] += payload[i];
-    return new BlockPosition(newPayload);
+    List<Integer> target = Arrays.stream(payload).boxed().collect(Collectors.toList());
+    return new BlockPosition(Stream.iterate(0, a -> a + 1).limit(this.payload.size())
+            .map(a -> this.payload.get(a) + target.get(a))
+            .collect(Collectors.toList()));
   }
 }

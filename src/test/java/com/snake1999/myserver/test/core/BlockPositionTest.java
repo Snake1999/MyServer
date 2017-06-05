@@ -48,7 +48,9 @@ class BlockPositionTest {
     @DisplayName("hashCode method")
     @Test
     void testHashcode() {
+        assertEquals(-24, p1.hashCode());
         assertEquals(-24, p2.hashCode());
+        assertEquals(8, p3.hashCode());
     }
 
 

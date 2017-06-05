@@ -14,41 +14,42 @@ import static org.junit.jupiter.api.Assertions.*;
 @DisplayName("BlockIdentifier class")
 class BlockIdentifierTest {
 
-    private static BlockIdentifier bid, bid2, bid3;
+  private static BlockIdentifier id1, id2, id3;
 
-    @BeforeAll
-    static void buildUp() {
-        bid = BlockIdentifier.ofStringId("my_category:my_block");
-        bid2 = BlockIdentifier.ofStringId("my_category:my_block");
-        bid3 = BlockIdentifier.ofStringId("my_category:my_block_2");
-    }
+  @BeforeAll
+  static void buildUp() {
+    id1 = BlockIdentifier.ofStringId("my_category:my_block");
+    id2 = BlockIdentifier.ofStringId("my_category:my_block");
+    id3 = BlockIdentifier.ofStringId("my_category:my_block_2");
+  }
 
+  @DisplayName("equals method")
+  @Test
+  void testEquals() {
+    assertEquals(id1, id2);
+    assertNotEquals(id1, id3);
+    assertTrue(BlockIdentifier.equals(id1, id2));
+    assertFalse(BlockIdentifier.equals(id1, id3));
+  }
 
-    @DisplayName("equals method")
-    @Test
-    void testEquals() {
-        assertEquals(bid, bid2);
-        assertNotEquals(bid, bid3);
-        assertTrue(BlockIdentifier.equals(bid, bid2));
-        assertFalse(BlockIdentifier.equals(bid, bid3));
-    }
+  @DisplayName("toString method")
+  @Test
+  void testToString() {
+    assertEquals("BlockIdentifier[my_category:my_block]", id1.toString());
+  }
 
-    @DisplayName("toString method")
-    @Test
-    void testToString() {
-        assertEquals("BlockIdentifier[my_category:my_block]", bid.toString());
-    }
+  @DisplayName("hashCode method")
+  @Test
+  void testHashcode() {
+    assertEquals(-777400477, id1.hashCode());
+    assertEquals(-777400477, id2.hashCode());
+    assertEquals(242454102, id3.hashCode());
+  }
 
-    @DisplayName("hashCode method")
-    @Test
-    void testHashcode() {
-        assertEquals(-777400477, bid.hashCode());
-    }
-
-    @DisplayName("getStringId method")
-    @Test
-    void testGetStringId() {
-        assertEquals("my_category:my_block", bid2.getStringId());
-    }
+  @DisplayName("getStringId method")
+  @Test
+  void testGetStringId() {
+    assertEquals("my_category:my_block", id2.getStringId());
+  }
 
 }
