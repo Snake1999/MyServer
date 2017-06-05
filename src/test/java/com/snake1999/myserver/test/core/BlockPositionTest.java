@@ -1,5 +1,6 @@
-package com.snake1999.myserver.core;
+package com.snake1999.myserver.test.core;
 
+import com.snake1999.myserver.core.BlockPosition;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,7 @@ class BlockPositionTest {
     private static BlockPosition p1, p2, p3;
 
     @BeforeAll
-    private static void buildUp() {
+    static void buildUp() {
         p1 = BlockPosition.of(-10, 10, 20);
         p2 = BlockPosition.of(-11, 9, 18).addXYZ(1, 1, 2);
         p3 = BlockPosition.of(10, 5, 6).addXYZ(0, 0, 1);
