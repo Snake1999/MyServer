@@ -23,14 +23,14 @@ class BlockPositionTest {
         p3 = BlockPosition.of(10, 5, 6).addXYZ(0, 0, 1);
     }
 
-    @DisplayName("getX() getY() and getZ() methods")
+    @DisplayName("getX getY and getZ methods")
     @Test
     void testGetXYZ() {
         assertEquals(String.format("x=%d, y=%d, z=%d", p3.getBlockX(), p3.getBlockY(), p3.getBlockZ()),
                 "x=10, y=5, z=7");
     }
 
-    @DisplayName("equals() method")
+    @DisplayName("equals method")
     @Test
     void testEquals() {
         assertEquals(p1, p2);
@@ -39,13 +39,13 @@ class BlockPositionTest {
         assertFalse(BlockPosition.equals(p2, p3));
     }
 
-    @DisplayName("toString() method")
+    @DisplayName("toString method")
     @Test
     void testToString() {
         assertEquals(p1.toString(), "BlockPosition[x=-10, y=10, z=20]");
     }
 
-    @DisplayName("hashCode() method")
+    @DisplayName("hashCode method")
     @Test
     void testHashcode() {
         assertEquals(-24, p2.hashCode());
