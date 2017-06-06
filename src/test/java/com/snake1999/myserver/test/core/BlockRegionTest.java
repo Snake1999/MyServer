@@ -48,7 +48,7 @@ class BlockRegionTest {
   @DisplayName("flip")
   @Test
   void testFlip() {
-    BlockRegion rf = r2.flip();
+    BlockRegion rf = r2.flip(); // rf = r2.flip() = r1.flip().flip() = r1s
     assertAll(
             () -> assertEquals("1111111111",
                     Stream.iterate(8, i -> i + 1).limit(10).map(i -> r2.contains(BlockPosition.of(i, 19, 31)))
@@ -89,8 +89,18 @@ class BlockRegionTest {
   @Test
   void testToString() {
     assertAll(
-            () -> assertEquals("BlockRegion{slices = {}, buffer = {}}", BlockRegion.empty().toString()),
-            () -> assertEquals("BlockRegion{slices = {}, buffer = {0}}", BlockRegion.infinite().toString())
+            () -> assertEquals("BlockRegion{slices = {}, buffer = {}}", empty.toString()),
+            () -> assertEquals("BlockRegion{slices = {}, buffer = {0}}", infinite.toString())
+    );
+  }
+
+  @DisplayName("hashCode")
+  @Test
+  void testHashCode() {
+    assertAll(
+            () -> assertEquals(empty.hashCode(), infinite.flip().hashCode()),
+            () -> assertEquals(r1.hashCode(), r2.flip().hashCode()),
+            () -> assertEquals(1542083049, r3.hashCode())
     );
   }
 

@@ -68,11 +68,16 @@ public final class BlockRegion {
   // Override
   ///////////////////////////////////////////////////////////////////////////
 
+
+  @Override
+  public int hashCode() {
+    return slices.hashCode() ^ buffer.hashCode();
+  }
+
   @Override
   public String toString() {
     return String.format("BlockRegion{slices = %s, buffer = %s}", slices, buffer);
   }
-
 
   ///////////////////////////////////////////////////////////////////////////
   // Internal
