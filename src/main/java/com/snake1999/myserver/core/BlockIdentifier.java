@@ -2,6 +2,8 @@ package com.snake1999.myserver.core;
 
 import java.util.Objects;
 
+import static com.snake1999.myserver.core.Messages.*;
+
 /**
  * BlockIdentifier identifies the block. It only stores string id (=int id and meta), excluding extra data (NBT).
  * Custom blocks with custom string id is also accepted.
@@ -12,13 +14,13 @@ import java.util.Objects;
 public final class BlockIdentifier {
 
   public static BlockIdentifier ofStringId(String stringId) {
-    Objects.requireNonNull(stringId, Messages.string_id_can_not_be_null);
+    Objects.requireNonNull(stringId, string_id_can_not_be_null);
     return new BlockIdentifier(stringId);
   }
 
   public static boolean equals(BlockIdentifier a, BlockIdentifier b) {
-    Objects.requireNonNull(a, Messages.block_identifier_can_not_be_null);
-    Objects.requireNonNull(b, Messages.block_identifier_can_not_be_null);
+    Objects.requireNonNull(a, block_identifier_can_not_be_null);
+    Objects.requireNonNull(b, block_identifier_can_not_be_null);
     return Objects.equals(a.stringId, b.stringId);
   }
 

@@ -2,6 +2,8 @@ package com.snake1999.myserver.core;
 
 import java.util.Objects;
 
+import static com.snake1999.myserver.core.Messages.*;
+
 /**
  * BlockLocated is BlockExact with position data.
  *
@@ -13,8 +15,8 @@ import java.util.Objects;
 public final class BlockLocated {
 
   public static BlockLocated of(BlockExact blockExact, BlockPosition blockPosition) {
-    Objects.requireNonNull(blockExact, Messages.block_exact_can_not_be_null);
-    Objects.requireNonNull(blockPosition, Messages.block_position_can_not_be_null);
+    Objects.requireNonNull(blockExact, block_exact_can_not_be_null);
+    Objects.requireNonNull(blockPosition, block_position_can_not_be_null);
     return new BlockLocated(blockExact, blockPosition);
   }
 

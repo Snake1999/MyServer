@@ -2,6 +2,7 @@ package com.snake1999.myserver.core;
 
 import java.util.*;
 import java.util.function.IntUnaryOperator;
+import java.util.stream.Stream;
 
 import static com.snake1999.myserver.core.Messages.*;
 
@@ -75,6 +76,11 @@ public final class BlockPosition {
   ///////////////////////////////////////////////////////////////////////////
   // Internal
   ///////////////////////////////////////////////////////////////////////////
+
+  // package-local
+  Stream<Map.Entry<Dimension, Integer>> data() {
+    return payload.entrySet().stream();
+  }
 
   private static BlockPosition copyAndModifyValue(BlockPosition origin,
                                                   Dimension dimension,
