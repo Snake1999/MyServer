@@ -46,7 +46,8 @@ public final class BlockLocated {
 
   @Override
   public String toString() {
-    return String.format("BlockLocated[%s, %s]", blockExact().toString(), blockPosition().toString());
+    return String.format("BlockLocated{blockExact = %s, blockPosition = %s}",
+            blockExact().toString(), blockPosition().toString());
   }
 
   ///////////////////////////////////////////////////////////////////////////

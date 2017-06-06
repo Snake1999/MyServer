@@ -45,7 +45,8 @@ public final class BlockExact {
 
   @Override
   public String toString() {
-    return String.format("BlockExact[%s, %s]", blockIdentifier().toString(), blockAttachment().toString());
+    return String.format("BlockExact{blockIdentifier = %s, blockAttachment = %s}",
+            blockIdentifier().toString(), blockAttachment().toString());
   }
 
   ///////////////////////////////////////////////////////////////////////////
