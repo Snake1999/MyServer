@@ -1,8 +1,13 @@
 package com.snake1999.myserver.core;
 
 import java.util.*;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 /**
+ * Immutable class of block regions.
+ * BlockRegion can be regarded as a multi-dimensional set of BlockPosition.
+ *
  * By lmlstarqaq http://snake1999.com/
  * Creation time: 2017/5/20 12:06.
  */

@@ -1,8 +1,9 @@
 package com.snake1999.myserver.core;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.function.IntUnaryOperator;
+
+import static com.snake1999.myserver.core.Messages.*;
 
 /**
  * Immutable class declaring positions of blocks.
@@ -13,29 +14,43 @@ import java.util.stream.Stream;
 public final class BlockPosition {
 
   public static BlockPosition of(int blockX, int blockY, int blockZ) {
-    return new BlockPosition(List.of(blockX, blockY, blockZ));
+    return new BlockPosition(Map.of(Dimension.X, blockX, Dimension.Y, blockY, Dimension.Z, blockZ));
   }
 
   public static boolean equals(BlockPosition a, BlockPosition b) {
-    Objects.requireNonNull(a, Messages.block_position_can_not_be_null);
-    Objects.requireNonNull(b, Messages.block_position_can_not_be_null);
+    Objects.requireNonNull(a, block_position_can_not_be_null);
+    Objects.requireNonNull(b, block_position_can_not_be_null);
     return Objects.equals(a.payload, b.payload);
   }
 
   public int getBlockX() {
-    return payload.get(Dimensions.DIMENSION_X);
+    return payload.get(Dimension.X);
   }
 
   public int getBlockY() {
-    return payload.get(Dimensions.DIMENSION_Y);
+    return payload.get(Dimension.Y);
   }
 
   public int getBlockZ() {
-    return payload.get(Dimensions.DIMENSION_Z);
+    return payload.get(Dimension.Z);
   }
 
-  public BlockPosition addXYZ(int deltaX, int deltaY, int deltaZ) {
-    return copyAndAddPayload(deltaX, deltaY, deltaZ);
+  public BlockPosition setValue(Dimension dimension, int value) {
+    Objects.requireNonNull(dimension, dimension_can_not_be_null);
+    return copyAndModifyValue(this, dimension, value, v -> value);
+  }
+
+  public BlockPosition addValue(Dimension dimension, int value) {
+    Objects.requireNonNull(dimension, dimension_can_not_be_null);
+    return copyAndModifyValue(this, dimension, value, v -> v + value);
+  }
+
+  public BlockPosition addValueXYZ(int deltaX, int deltaY, int deltaZ) {
+    return new BlockPosition(Map.of(
+            Dimension.X, getBlockX() + deltaX,
+            Dimension.Y, getBlockY() + deltaY,
+            Dimension.Z, getBlockZ() + deltaZ
+    ));
   }
 
   ///////////////////////////////////////////////////////////////////////////
@@ -49,7 +64,7 @@ public final class BlockPosition {
 
   @Override
   public int hashCode() {
-    return this.payload.stream().map(i -> Integer.hashCode(i)).reduce((a, b) -> a^b).orElse(0);
+    return this.payload.values().stream().map(i -> Integer.hashCode(i)).reduce((a, b) -> a^b).orElse(0);
   }
 
   @Override
@@ -61,16 +76,20 @@ public final class BlockPosition {
   // Internal
   ///////////////////////////////////////////////////////////////////////////
 
-  private List<Integer> payload;
+  private static BlockPosition copyAndModifyValue(BlockPosition origin,
+                                                  Dimension dimension,
+                                                  int defaultValue,
+                                                  IntUnaryOperator modifier) {
+    Map<Dimension, Integer> newPayload = new HashMap<>(origin.payload);
+    newPayload.putIfAbsent(dimension, defaultValue);
+    newPayload.computeIfPresent(dimension, (k, v) -> modifier.applyAsInt(v));
+    return new BlockPosition(newPayload);
+  }
 
-  private BlockPosition(List<Integer> payload) {
+  private Map<Dimension, Integer> payload;
+
+  private BlockPosition(Map<Dimension, Integer> payload) {
     this.payload = payload;
   }
 
-  private BlockPosition copyAndAddPayload(int... payload) {
-    List<Integer> target = Arrays.stream(payload).boxed().collect(Collectors.toList());
-    return new BlockPosition(Stream.iterate(0, a -> a + 1).limit(this.payload.size())
-            .map(a -> this.payload.get(a) + target.get(a))
-            .collect(Collectors.toList()));
-  }
 }
