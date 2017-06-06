@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * By lmlstarqaq http://snake1999.com/
  * Creation time: 2017/6/5 12:58.
  */
-@DisplayName("BlockIdentifier class")
+@DisplayName("BlockIdentifier")
 class BlockIdentifierTest {
 
   private static BlockIdentifier id1, id2, id3;
@@ -23,7 +23,7 @@ class BlockIdentifierTest {
     id3 = BlockIdentifier.ofStringId("my_category:my_block_2");
   }
 
-  @DisplayName("equals method")
+  @DisplayName("equals")
   @Test
   void testEquals() {
     assertEquals(id1, id2);
@@ -32,13 +32,13 @@ class BlockIdentifierTest {
     assertFalse(BlockIdentifier.equals(id1, id3));
   }
 
-  @DisplayName("toString method")
+  @DisplayName("toString")
   @Test
   void testToString() {
     assertEquals("BlockIdentifier[my_category:my_block]", id1.toString());
   }
 
-  @DisplayName("hashCode method")
+  @DisplayName("hashCode")
   @Test
   void testHashcode() {
     assertEquals(-777400477, id1.hashCode());
@@ -46,10 +46,10 @@ class BlockIdentifierTest {
     assertEquals(242454102, id3.hashCode());
   }
 
-  @DisplayName("getStringId method")
+  @DisplayName("stringId")
   @Test
-  void testGetStringId() {
-    assertEquals("my_category:my_block", id2.getStringId());
+  void testStringId() {
+    assertEquals("my_category:my_block", id2.stringId());
   }
 
 }

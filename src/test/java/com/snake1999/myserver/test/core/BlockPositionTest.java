@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * By lmlstarqaq http://snake1999.com/
  * Creation time: 2017/6/5 12:19.
  */
-@DisplayName("BlockPosition class")
+@DisplayName("BlockPosition")
 class BlockPositionTest {
 
     private static BlockPosition p1, p2, p3;
@@ -23,14 +23,14 @@ class BlockPositionTest {
         p3 = BlockPosition.of(10, 5, 6).addXYZ(0, 0, 1);
     }
 
-    @DisplayName("getX getY and getZ methods")
+    @DisplayName("getX getY and getZ")
     @Test
     void testGetXYZ() {
         assertEquals(String.format("x=%d, y=%d, z=%d", p3.getBlockX(), p3.getBlockY(), p3.getBlockZ()),
                 "x=10, y=5, z=7");
     }
 
-    @DisplayName("equals method")
+    @DisplayName("equals")
     @Test
     void testEquals() {
         assertEquals(p1, p2);
@@ -39,13 +39,13 @@ class BlockPositionTest {
         assertFalse(BlockPosition.equals(p2, p3));
     }
 
-    @DisplayName("toString method")
+    @DisplayName("toString")
     @Test
     void testToString() {
         assertEquals(p1.toString(), "BlockPosition[x=-10, y=10, z=20]");
     }
 
-    @DisplayName("hashCode method")
+    @DisplayName("hashCode")
     @Test
     void testHashcode() {
         assertEquals(-24, p1.hashCode());

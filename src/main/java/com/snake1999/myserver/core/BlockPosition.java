@@ -61,7 +61,7 @@ public final class BlockPosition {
   // Internal
   ///////////////////////////////////////////////////////////////////////////
 
-  List<Integer> payload;
+  private List<Integer> payload;
 
   private BlockPosition(List<Integer> payload) {
     this.payload = payload;

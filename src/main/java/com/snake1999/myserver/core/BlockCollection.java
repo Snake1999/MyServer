@@ -7,4 +7,5 @@ package com.snake1999.myserver.core;
 public interface BlockCollection {
 
 
+
 }
