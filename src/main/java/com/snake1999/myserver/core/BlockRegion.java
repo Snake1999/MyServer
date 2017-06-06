@@ -68,6 +68,12 @@ public final class BlockRegion {
   // Override
   ///////////////////////////////////////////////////////////////////////////
 
+  @Override
+  public boolean equals(Object obj) {
+    return obj instanceof BlockRegion &&
+            Objects.equals(((BlockRegion) obj).slices, this.slices) &&
+            Objects.equals(((BlockRegion) obj).buffer, this. buffer);
+  }
 
   @Override
   public int hashCode() {

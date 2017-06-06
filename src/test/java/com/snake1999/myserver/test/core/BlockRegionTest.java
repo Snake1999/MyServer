@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Set;
 import java.util.stream.Stream;
 
 /**
@@ -100,7 +101,18 @@ class BlockRegionTest {
     assertAll(
             () -> assertEquals(empty.hashCode(), infinite.flip().hashCode()),
             () -> assertEquals(r1.hashCode(), r2.flip().hashCode()),
-            () -> assertEquals(1542083049, r3.hashCode())
+            () -> assertEquals(BlockRegion.cube(BlockPosition.of(10, 20, 30)).hashCode(), r3.hashCode())
+    );
+  }
+
+
+  @DisplayName("equals")
+  @Test
+  void testEquals() {
+    assertAll(
+            () -> assertEquals(empty, infinite.flip()),
+            () -> assertEquals(r1, r2.flip()),
+            () -> assertEquals(BlockRegion.cube(BlockPosition.of(10, 20, 30)), r3)
     );
   }
 

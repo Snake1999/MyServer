@@ -41,9 +41,8 @@ class BlockIdentifierTest {
   @DisplayName("hashCode")
   @Test
   void testHashcode() {
-    assertEquals(-777400477, id1.hashCode());
-    assertEquals(-777400477, id2.hashCode());
-    assertEquals(242454102, id3.hashCode());
+    assertEquals(id2.hashCode(), id1.hashCode());
+    assertEquals(BlockIdentifier.ofStringId("my_category:my_block_2").hashCode(), id3.hashCode());
   }
 
   @DisplayName("stringId")
