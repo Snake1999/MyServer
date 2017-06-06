@@ -22,6 +22,10 @@ public final class BlockRegion {
     return empty().flip();
   }
 
+  public static BlockRegion align(int x1, int x2, int y1, int y2, int z1, int z2) {
+    return cube(BlockPosition.of(x1, y1, z1), BlockPosition.of(x2, y2, z2));
+  }
+
   public static BlockRegion cube(BlockPosition... contained) {
     Objects.requireNonNull(contained, block_position_can_not_be_null);
     if(contained.length == 0) return empty();
@@ -40,20 +44,16 @@ public final class BlockRegion {
     return new BlockRegion(slices, payload);
   }
 
-  //    public static BlockRegion align(int x1, int x2, int y1, int y2, int z1, int z2) {
+  public static BlockRegion logicNot(BlockRegion region) {
+    Objects.requireNonNull(region, block_region_can_not_be_null);
+    return flip(region);
+  }
+
+//  public static BlockRegion logicAnd(BlockRegion... regions) {}
 //
-//    }
+//  public static BlockRegion logicOr(BlockRegion... regions) {}
 //
-//
-//
-//  public static BlockRegion logicNot(BlockRegion range) {}
-//
-//  public static BlockRegion logicAnd(BlockRegion... ranges) {}
-//
-//  public static BlockRegion logicOr(BlockRegion... ranges) {}
-//
-//  public static BlockRegion logicXor(BlockRegion... ranges) {}
-//
+//  public static BlockRegion logicXor(BlockRegion... regions) {}
 
   public boolean contains(BlockPosition position) {
     Objects.requireNonNull(position, block_position_can_not_be_null);
@@ -99,15 +99,12 @@ public final class BlockRegion {
   }
 
   private static BlockRegion flip(BlockRegion region) {
-    Objects.requireNonNull(region, block_region_can_not_be_null);
     BitSet newPayload = (BitSet) region.buffer.clone();
     newPayload.flip(0, maxIndex(region.slices) + 1);
     return new BlockRegion(region.slices, newPayload);
   }
 
   private static boolean contains(BlockRegion region, BlockPosition position) {
-    Objects.requireNonNull(region, block_region_can_not_be_null);
-    Objects.requireNonNull(position, block_position_can_not_be_null);
     int index = indexOfPosition(region.slices, position);
     return region.buffer.get(index);
   }
