@@ -2,10 +2,7 @@ package com.snake1999.myserver.core;
 
 import java.util.Optional;
 import java.util.function.*;
-import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
-import java.util.stream.LongStream;
-import java.util.stream.Stream;
+import java.util.stream.*;
 
 /**
  * Wrapper for Stream to operate blocks easier.
@@ -59,5 +56,6 @@ public interface BlockStream {
 
   Optional<BlockLocated> findAny();
 
+  <R, A> R collect(Collector<? super BlockLocated, A, R> collector);
 
 }
