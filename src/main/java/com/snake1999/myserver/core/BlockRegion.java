@@ -20,7 +20,12 @@ public final class BlockRegion {
     return new BlockRegion(Collections.emptyMap(), BitSet.valueOf(new long[]{0x0}));
   }
 
+  public static BlockRegion infinite() {
+    return empty().flip();
+  }
+
   public static BlockRegion cube(BlockPosition... contained) {
+    Objects.requireNonNull(contained, block_position_can_not_be_null);
     if(contained.length == 0) return empty();
     Set<Map.Entry<Dimension, Integer>> allData = Arrays.stream(contained)
             .flatMap(BlockPosition::data).collect(Collectors.toSet());
@@ -41,9 +46,6 @@ public final class BlockRegion {
 //
 //    }
 //
-//  public static BlockRegion infinite() {
-//
-//  }
 //
 //
 //  public static BlockRegion logicNot(BlockRegion range) {}
@@ -54,20 +56,24 @@ public final class BlockRegion {
 //
 //  public static BlockRegion logicXor(BlockRegion... ranges) {}
 //
-  public static boolean contains(BlockRegion region, BlockPosition position) {
-    Objects.requireNonNull(region, block_region_can_not_be_null);
-    Objects.requireNonNull(position, block_position_can_not_be_null);
-    int index = indexOfPosition(region.slices, position);
-    return region.buffer.get(index);
-  }
 
   public boolean contains(BlockPosition position) {
+    Objects.requireNonNull(position, block_position_can_not_be_null);
     return contains(this, position);
+  }
+
+  public BlockRegion flip() {
+    return flip(this);
   }
 
   ///////////////////////////////////////////////////////////////////////////
   // Override
   ///////////////////////////////////////////////////////////////////////////
+
+  @Override
+  public String toString() {
+    return String.format("BlockRegion{slices = %s, buffer = %s}", slices, buffer);
+  }
 
 
   ///////////////////////////////////////////////////////////////////////////
@@ -81,6 +87,24 @@ public final class BlockRegion {
     this.slices = new TreeMap<>(Comparator.comparingInt(Enum::ordinal));
     this.slices.putAll(slices);
     this.buffer = buffer;
+  }
+
+  private static BlockRegion flip(BlockRegion region) {
+    Objects.requireNonNull(region, block_region_can_not_be_null);
+    BitSet newPayload = (BitSet) region.buffer.clone();
+    newPayload.flip(0, maxIndex(region.slices));
+    return new BlockRegion(region.slices, newPayload);
+  }
+
+  private static boolean contains(BlockRegion region, BlockPosition position) {
+    Objects.requireNonNull(region, block_region_can_not_be_null);
+    Objects.requireNonNull(position, block_position_can_not_be_null);
+    int index = indexOfPosition(region.slices, position);
+    return region.buffer.get(index);
+  }
+
+  private static int maxIndex(SortedMap<Dimension, Set<Integer>> slices) {
+    return slices.entrySet().stream().map(e -> e.getValue().size() + 1).reduce((a, b) -> a * b).orElse(0);
   }
 
   private static int indexOfCube(int dimensionCount) {
