@@ -7,8 +7,6 @@ import static com.snake1999.myserver.core.Messages.*;
 /**
  * BlockLocated is BlockExact with position data.
  *
- * This is used as return value of block getter methods in BlockCollection.
- *
  * Copyright 2017 lmlstarqaq
  * All rights reserved.
  */

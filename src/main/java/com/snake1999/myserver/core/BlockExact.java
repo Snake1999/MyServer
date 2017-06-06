@@ -6,7 +6,8 @@ import java.util.Objects;
  * BlockExact contains full block data, including BlockIdentifier and BlockAttachment.
  * For example, chests with items inside, skulls with skull type and skins.
  *
- * This is used for storing exact block data, e.g. block as item in inventory.
+ * This is used for storing exact block data, e.g. block as item in inventory, or
+ * as return value of block getter methods in BlockCollection.
  *
  * By lmlstarqaq http://snake1999.com/
  * Creation time: 2017/6/5 12:03.
