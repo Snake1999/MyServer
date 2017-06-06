@@ -35,14 +35,14 @@ public final class BlockPosition {
     return payload.get(Dimension.Z);
   }
 
-  public BlockPosition setValue(Dimension dimension, int value) {
+  public BlockPosition setValue(Dimension dimension, int newValue) {
     Objects.requireNonNull(dimension, dimension_can_not_be_null);
-    return copyAndModifyValue(this, dimension, value, v -> value);
+    return copyAndModifyValue(this, dimension, newValue, v -> newValue);
   }
 
-  public BlockPosition addValue(Dimension dimension, int value) {
+  public BlockPosition addValue(Dimension dimension, int deltaValue) {
     Objects.requireNonNull(dimension, dimension_can_not_be_null);
-    return copyAndModifyValue(this, dimension, value, v -> v + value);
+    return copyAndModifyValue(this, dimension, deltaValue, v -> v + deltaValue);
   }
 
   public BlockPosition addValueXYZ(int deltaX, int deltaY, int deltaZ) {
