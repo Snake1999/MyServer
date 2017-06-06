@@ -16,11 +16,18 @@ import java.util.stream.Stream;
 @DisplayName("BlockRegion")
 class BlockRegionTest {
 
-  private static BlockRegion r1, r2, r3;
-
   @BeforeAll
   static void buildUp() {
 
+  }
+
+
+  @DisplayName("empty")
+  @Test
+  void testEmpty() {
+    BlockRegion r = BlockRegion.empty();
+    assertFalse(r.contains(BlockPosition.of(-233,-233,-233)));
+    assertFalse(r.contains(BlockPosition.of(237,356,812)));
   }
 
   @DisplayName("cube")

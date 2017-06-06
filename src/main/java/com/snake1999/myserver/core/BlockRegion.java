@@ -61,14 +61,13 @@ public final class BlockRegion {
     return region.buffer.get(index);
   }
 
+  public boolean contains(BlockPosition position) {
+    return contains(this, position);
+  }
+
   ///////////////////////////////////////////////////////////////////////////
   // Override
   ///////////////////////////////////////////////////////////////////////////
-
-  @Override
-  public String toString() {
-    return slices.toString();
-  }
 
 
   ///////////////////////////////////////////////////////////////////////////
@@ -89,6 +88,7 @@ public final class BlockRegion {
   }
 
   private static int indexOfPosition(SortedMap<Dimension, Set<Integer>> slices, BlockPosition p) {
+    if(slices.isEmpty()) return 0;
     return p.data()
             .map(e -> sizeOfDimension(slices, e.getKey()) * (int)
                     (slices.get(e.getKey()).stream().filter(i -> i <= e.getValue()).count()))
