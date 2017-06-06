@@ -44,16 +44,11 @@ public final class BlockRegion {
     return new BlockRegion(slices, payload);
   }
 
-  public static BlockRegion logicNot(BlockRegion region) {
-    Objects.requireNonNull(region, block_region_can_not_be_null);
-    return flip(region);
-  }
-
-//  public static BlockRegion logicAnd(BlockRegion... regions) {}
+//  public static BlockRegion and(BlockRegion... regions) {}
 //
-//  public static BlockRegion logicOr(BlockRegion... regions) {}
+//  public static BlockRegion or(BlockRegion... regions) {}
 //
-//  public static BlockRegion logicXor(BlockRegion... regions) {}
+//  public static BlockRegion xor(BlockRegion... regions) {}
 
   public boolean contains(BlockPosition position) {
     Objects.requireNonNull(position, block_position_can_not_be_null);

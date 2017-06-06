@@ -56,10 +56,12 @@ class BlockPositionTest {
   @DisplayName("equals")
   @Test
   void testEquals() {
-    assertEquals(p1, p2);
-    assertNotEquals(p2, p3);
-    assertTrue(BlockPosition.equals(p1, p2));
-    assertFalse(BlockPosition.equals(p2, p3));
+    assertAll(
+            () -> assertEquals(p1, p2),
+            () -> assertNotEquals(p2, p3),
+            () -> assertTrue(BlockPosition.equals(p1, p2)),
+            () -> assertFalse(BlockPosition.equals(p2, p3))
+    );
   }
 
   @DisplayName("toString")
@@ -71,9 +73,7 @@ class BlockPositionTest {
   @DisplayName("hashCode")
   @Test
   void testHashcode() {
-    assertEquals(-24, p1.hashCode());
-    assertEquals(-24, p2.hashCode());
-    assertEquals(8, p3.hashCode());
+    assertEquals(p2.hashCode(), p1.hashCode());
   }
 
 

@@ -26,10 +26,12 @@ class BlockIdentifierTest {
   @DisplayName("equals")
   @Test
   void testEquals() {
-    assertEquals(id1, id2);
-    assertNotEquals(id1, id3);
-    assertTrue(BlockIdentifier.equals(id1, id2));
-    assertFalse(BlockIdentifier.equals(id1, id3));
+    assertAll(
+            () -> assertEquals(id1, id2),
+            () -> assertNotEquals(id1, id3),
+            () -> assertTrue(BlockIdentifier.equals(id1, id2)),
+            () -> assertFalse(BlockIdentifier.equals(id1, id3))
+    );
   }
 
   @DisplayName("toString")
@@ -41,8 +43,10 @@ class BlockIdentifierTest {
   @DisplayName("hashCode")
   @Test
   void testHashcode() {
-    assertEquals(id2.hashCode(), id1.hashCode());
-    assertEquals(BlockIdentifier.ofStringId("my_category:my_block_2").hashCode(), id3.hashCode());
+    assertAll(
+            () -> assertEquals(id2.hashCode(), id1.hashCode()),
+            () -> assertEquals(BlockIdentifier.ofStringId("my_category:my_block_2").hashCode(), id3.hashCode())
+    );
   }
 
   @DisplayName("stringId")
