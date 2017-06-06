@@ -1,9 +1,7 @@
 package com.snake1999.myserver.core;
 
 import java.util.*;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static com.snake1999.myserver.core.Messages.*;
 
@@ -17,7 +15,7 @@ import static com.snake1999.myserver.core.Messages.*;
 public final class BlockRegion {
 
   public static BlockRegion empty() {
-    return new BlockRegion(Collections.emptyMap(), BitSet.valueOf(new long[]{0x0}));
+    return new BlockRegion(Collections.emptyMap(), new BitSet(0));
   }
 
   public static BlockRegion infinite() {
@@ -92,7 +90,7 @@ public final class BlockRegion {
   private static BlockRegion flip(BlockRegion region) {
     Objects.requireNonNull(region, block_region_can_not_be_null);
     BitSet newPayload = (BitSet) region.buffer.clone();
-    newPayload.flip(0, maxIndex(region.slices));
+    newPayload.flip(0, maxIndex(region.slices) + 1);
     return new BlockRegion(region.slices, newPayload);
   }
 

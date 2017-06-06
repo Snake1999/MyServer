@@ -7,6 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 import java.util.stream.Stream;
 
 /**
@@ -16,81 +17,81 @@ import java.util.stream.Stream;
 @DisplayName("BlockRegion")
 class BlockRegionTest {
 
+  private static BlockRegion empty, infinite, r1, r2, r3;
+
   @BeforeAll
   static void buildUp() {
-
+    empty = BlockRegion.empty();
+    infinite = BlockRegion.infinite();
+    r1 = BlockRegion.cube(
+            BlockPosition.of(10, 20, 30),
+            BlockPosition.of(15, 22, 34)
+    );
+    r2 = r1.flip();
+    r3 = BlockRegion.cube(BlockPosition.of(10, 20, 30));
   }
-
 
   @DisplayName("empty")
   @Test
   void testEmpty() {
-    BlockRegion r = BlockRegion.empty();
-    System.out.println(r);
-    assertFalse(r.contains(BlockPosition.of(-233,-233,-233)));
-    assertFalse(r.contains(BlockPosition.of(237,356,812)));
+    assertFalse(empty.contains(BlockPosition.of(-233,-233,-233)));
+    assertFalse(empty.contains(BlockPosition.of(237,356,812)));
   }
 
   @DisplayName("infinite")
   @Test
   void testInfinite() {
-    BlockRegion r = BlockRegion.infinite();
-    System.out.println(r);
-    assertTrue(r.contains(BlockPosition.of(-233,-233,-233)));
-    assertTrue(r.contains(BlockPosition.of(237,356,812)));
+    assertTrue(infinite.contains(BlockPosition.of(-233,-233,-233)));
+    assertTrue(infinite.contains(BlockPosition.of(237,356,812)));
   }
 
   @DisplayName("flip")
   @Test
   void testFlip() {
-    BlockRegion r = BlockRegion.cube(
-            BlockPosition.of(10, 20, 30),
-            BlockPosition.of(15, 22, 34)
-    ).flip();
-    assertEquals("true true true true true true true true true true",
-            Stream.iterate(8, i -> i + 1).limit(10).map(i -> {
-              BlockPosition p = BlockPosition.of(i, 19, 31);
-              return r.contains(p);
-            }).map(b -> b ? "true" : "false").map(s -> s + " ").reduce((a, b) -> a + b).orElse("").trim());
-    assertEquals("true true false false false false false false true true",
-            Stream.iterate(8, i -> i + 1).limit(10).map(i -> {
-              BlockPosition p = BlockPosition.of(i, 20, 31);
-              return r.contains(p);
-            }).map(b -> b ? "true" : "false").map(s -> s + " ").reduce((a, b) -> a + b).orElse("").trim());
+    BlockRegion rf = r2.flip();
+    assertAll(
+            () -> assertEquals("1111111111",
+                    Stream.iterate(8, i -> i + 1).limit(10).map(i -> r2.contains(BlockPosition.of(i, 19, 31)))
+                            .map(b -> b ? "1" : "0").reduce((a, b) -> a + b).orElse("")),
+            () -> assertEquals("1100000011",
+                    Stream.iterate(8, i -> i + 1).limit(10).map(i -> r2.contains(BlockPosition.of(i, 20, 31)))
+                            .map(b -> b ? "1" : "0").reduce((a, b) -> a + b).orElse("")),
+            () -> assertEquals("0000000000",
+                    Stream.iterate(8, i -> i + 1).limit(10).map(i -> rf.contains(BlockPosition.of(i, 19, 31)))
+                            .map(b -> b ? "1" : "0").reduce((a, b) -> a + b).orElse("")),
+            () -> assertEquals("0011111100",
+                    Stream.iterate(8, i -> i + 1).limit(10).map(i -> rf.contains(BlockPosition.of(i, 20, 31)))
+                            .map(b -> b ? "1" : "0").reduce((a, b) -> a + b).orElse(""))
+    );
   }
 
   @DisplayName("cube")
   @Test
   void testCube() {
-    {
-      BlockRegion r = BlockRegion.cube(BlockPosition.of(10, 20, 30));
-      assertAll(Stream.iterate(8, i -> i + 1).limit(5).map(i -> () -> {
-        BlockPosition p = BlockPosition.of(i, 21, 30);
-        assertFalse(r.contains(p));
-      }));
-      assertAll(Stream.iterate(8, i -> i + 1).limit(5).filter(i -> i != 10).map(i -> () -> {
-        BlockPosition p = BlockPosition.of(i, 20, 30);
-        assertFalse(r.contains(p));
-      }));
-      assertTrue(r.contains(BlockPosition.of(10, 20, 30)));
-    }
-    {
-      BlockRegion r = BlockRegion.cube(
-              BlockPosition.of(10, 20, 30),
-              BlockPosition.of(15, 22, 34)
-      );
-      assertEquals("false false false false false false false false false false",
-              Stream.iterate(8, i -> i + 1).limit(10).map(i -> {
-                BlockPosition p = BlockPosition.of(i, 19, 31);
-                return r.contains(p);
-              }).map(b -> b ? "true" : "false").map(s -> s + " ").reduce((a, b) -> a + b).orElse("").trim());
+    assertAll(
+            () -> assertAll(Stream.iterate(8, i -> i + 1).limit(5).map(i -> () ->
+                    assertFalse(r3.contains(BlockPosition.of(i, 21, 30))))),
+            () -> assertAll(Stream.iterate(8, i -> i + 1).limit(5).filter(i -> i != 10).map(i -> () ->
+                    assertFalse(r3.contains(BlockPosition.of(i, 20, 30))))),
+            () -> assertTrue(r3.contains(BlockPosition.of(10, 20, 30))),
+            () -> assertEquals("0000000000",
+                    Stream.iterate(8, i -> i + 1).limit(10).map(i ->
+                            r1.contains(BlockPosition.of(i, 19, 31)))
+                            .map(b -> b ? "1" : "0").reduce((a, b) -> a + b).orElse("")),
+            () -> assertEquals("0011111100",
+                    Stream.iterate(8, i -> i + 1).limit(10).map(i ->
+                            r1.contains(BlockPosition.of(i, 20, 31)))
+                            .map(b -> b ? "1" : "0").reduce((a, b) -> a + b).orElse(""))
+    );
+  }
 
-      assertEquals("false false true true true true true true false false",
-              Stream.iterate(8, i -> i + 1).limit(10).map(i -> {
-                BlockPosition p = BlockPosition.of(i, 20, 31);
-                return r.contains(p);
-              }).map(b -> b ? "true" : "false").map(s -> s + " ").reduce((a, b) -> a + b).orElse("").trim());
-    }
+  @DisplayName("toString")
+  @Test
+  void testToString() {
+    assertAll(
+            () -> assertEquals("BlockRegion{slices = {}, buffer = {}}", BlockRegion.empty().toString()),
+            () -> assertEquals("BlockRegion{slices = {}, buffer = {0}}", BlockRegion.infinite().toString())
+    );
   }
 
 }
