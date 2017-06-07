@@ -1,20 +1,19 @@
 package com.snake1999.myserver.core;
 
-import java.nio.IntBuffer;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
-import java.util.function.BiFunction;
+import java.util.concurrent.atomic.AtomicIntegerArray;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 /**
- * A mutable thread-unsafe block list using heap buffer.
+ * A mutable thread-unsafe block list using array.
  *
  * By lmlstarqaq http://snake1999.com/
  * Creation time: 2017/6/6 22:13.
  */
-public class BufferBlockList implements BlockCollection {
+public class ArrayBlockList implements BlockCollection {
 
   private Map<ChunkPos, Chunk> posToChunk;
   private Map<Integer, String> id;
@@ -35,30 +34,32 @@ public class BufferBlockList implements BlockCollection {
     @Override public int hashCode() {return chunkX * 65536 + chunkZ;}
   }
 
+  private static int chunkSize0 = 16 * 256 * 16;
+  private static AtomicIntegerArray emptyBuffer0 = new AtomicIntegerArray(chunkSize0);
+
   // A chunk is a holder for block sized 16*256*16.
   private static class Chunk {
-    private IntBuffer buffer;
+    private AtomicIntegerArray buffer;
     Chunk() {
-      buffer = IntBuffer.allocate(16 * 256 * 16);
+      buffer = new AtomicIntegerArray(chunkSize0);
     }
   }
 
-  private static int indexOfBuffer(BlockPosition position) {
-    int bX = position.getBlockX(), bY = position.getBlockY(), bZ = position.getBlockZ();
+  private static int indexOfBuffer(BlockPosition bp) {
+    int bX = bp.getBlockX(), bY = bp.getBlockY(), bZ = bp.getBlockZ();
     bX %= 16; bY %= 256; bZ %= 16;
     return bX + bY * 16 + bZ * 16 * 256;
   }
 
-  private ChunkPos ensure0(BlockPosition p) {
-    ChunkPos chunkPos = ChunkPos.from(p);
+  private ChunkPos ensure0(BlockPosition bp) {
+    ChunkPos chunkPos = ChunkPos.from(bp);
     posToChunk.computeIfAbsent(chunkPos, pp -> new Chunk());
     return chunkPos;
-
   }
 
-  private Optional<String> getString0(BlockPosition pos) {
-    ChunkPos chunkPos = ensure0(pos);
-    int intId = posToChunk.get(chunkPos).buffer.get(indexOfBuffer(pos));
+  private Optional<String> getString0(BlockPosition bp) {
+    ChunkPos cp = ensure0(bp);
+    int intId = posToChunk.get(cp).buffer.get(indexOfBuffer(bp));
     return Optional.ofNullable(id.getOrDefault(intId, null));
   }
 
@@ -66,21 +67,37 @@ public class BufferBlockList implements BlockCollection {
     return id.size();
   }
 
-  private void put0(BlockPosition pos, BlockAttachment a, BlockIdentifier i) {
+  private void put0(BlockPosition bp, BlockAttachment a, BlockIdentifier i) {
     int intId = nextFreeInt();
     id.put(intId, i.stringId());
-    special.put(pos, a);
-    ChunkPos chunkPos = ensure0(pos);
-    posToChunk.get(chunkPos).buffer.put(indexOfBuffer(pos), intId);
+    special.put(bp, a);
+    ChunkPos chunkPos = ensure0(bp);
+    posToChunk.get(chunkPos).buffer.set(indexOfBuffer(bp), intId);
   }
+
+  private static int intIdForBlockAbsent = 0;
 
   private void reset0(){
     posToChunk = new HashMap<>();
     id = new HashMap<>();
     special = new HashMap<>();
+    id.put(intIdForBlockAbsent, ""); // for absent block
   }
 
-  public BufferBlockList() {
+  private void checkChunk0(ChunkPos cp) {
+    if(!posToChunk.containsKey(cp)) return;
+    if(!Objects.equals(posToChunk.get(cp).buffer, emptyBuffer0)) return;
+    posToChunk.remove(cp);
+  }
+
+  private void delete0(BlockPosition bp) {
+    ChunkPos cp = ChunkPos.from(bp);
+    if(!posToChunk.containsKey(cp)) return;
+    posToChunk.get(cp).buffer.set(indexOfBuffer(bp), intIdForBlockAbsent);
+    checkChunk0(cp);
+  }
+
+  public ArrayBlockList() {
     reset0();
   }
 
@@ -112,7 +129,7 @@ public class BufferBlockList implements BlockCollection {
 
   @Override
   public void remove(BlockPosition position) {
-
+    delete0(position);
   }
 
   @Override
