@@ -37,8 +37,6 @@ hs_err_pid*
 .idea/**/dataSources.local.xml
 .idea/**/sqlDataSources.xml
 .idea/**/dynamic.xml
-.idea/**/uiDesigner.xml
-
 # Gradle:
 .idea/**/gradle.xml
 # Mongo Explorer plugin:
@@ -64,4 +62,5 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 .idea/
-MyServer.iml
+*.iml
+target/
