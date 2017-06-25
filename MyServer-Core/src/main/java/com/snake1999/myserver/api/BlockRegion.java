@@ -3,6 +3,8 @@ package com.snake1999.myserver.api;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.snake1999.myserver.api.API.Definition.UNIVERSAL;
+import static com.snake1999.myserver.api.API.Usage.BLEEDING;
 import static com.snake1999.myserver.api.Messages.*;
 
 /**
@@ -12,20 +14,25 @@ import static com.snake1999.myserver.api.Messages.*;
  * By lmlstarqaq http://snake1999.com/
  * Creation time: 2017/5/20 12:06.
  */
+@API(usage = BLEEDING, definition = UNIVERSAL)
 public final class BlockRegion {
 
+  @API(usage = BLEEDING, definition = UNIVERSAL)
   public static BlockRegion empty() {
     return new BlockRegion(Collections.emptyMap(), new BitSet(0));
   }
 
+  @API(usage = BLEEDING, definition = UNIVERSAL)
   public static BlockRegion infinite() {
     return empty().flip();
   }
 
+  @API(usage = BLEEDING, definition = UNIVERSAL)
   public static BlockRegion align(int x1, int x2, int y1, int y2, int z1, int z2) {
     return cube(BlockPosition.of(x1, y1, z1), BlockPosition.of(x2, y2, z2));
   }
 
+  @API(usage = BLEEDING, definition = UNIVERSAL)
   public static BlockRegion cube(BlockPosition... contained) {
     Objects.requireNonNull(contained, block_position_can_not_be_null);
     if(contained.length == 0) return empty();
@@ -50,11 +57,13 @@ public final class BlockRegion {
 //
 //  public static BlockRegion xor(BlockRegion... regions) {}
 
+  @API(usage = BLEEDING, definition = UNIVERSAL)
   public boolean contains(BlockPosition position) {
     Objects.requireNonNull(position, block_position_can_not_be_null);
     return contains(this, position);
   }
 
+  @API(usage = BLEEDING, definition = UNIVERSAL)
   public BlockRegion flip() {
     return flip(this);
   }
