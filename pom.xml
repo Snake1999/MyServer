@@ -12,6 +12,7 @@
     <modules>
         <module>MyServer-Core</module>
         <module>MyServer-Protocol-MCPE-113</module>
+        <module>MyServer-Instance-Forbidden</module>
     </modules>
 
     <properties>
