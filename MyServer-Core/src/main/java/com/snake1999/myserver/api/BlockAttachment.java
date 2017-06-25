@@ -1,4 +1,4 @@
-package com.snake1999.myserver.core;
+package com.snake1999.myserver.api;
 
 /**
  * Copyright 2017 lmlstarqaq

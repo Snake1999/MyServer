@@ -1,4 +1,4 @@
-package com.snake1999.myserver.core;
+package com.snake1999.myserver.api;
 
 /**
  * Declares a dimension.

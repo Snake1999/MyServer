@@ -1,7 +1,7 @@
-package com.snake1999.myserver.test.core;
+package com.snake1999.myserver.test;
 
-import com.snake1999.myserver.core.BlockPosition;
-import com.snake1999.myserver.core.Dimension;
+import com.snake1999.myserver.api.BlockPosition;
+import com.snake1999.myserver.api.Dimension;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

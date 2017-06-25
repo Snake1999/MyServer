@@ -1,9 +1,9 @@
-package com.snake1999.myserver.core;
+package com.snake1999.myserver.api;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.snake1999.myserver.core.Messages.*;
+import static com.snake1999.myserver.api.Messages.*;
 
 /**
  * Immutable class of block regions.

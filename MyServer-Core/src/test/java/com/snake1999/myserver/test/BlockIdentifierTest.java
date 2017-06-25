@@ -1,6 +1,6 @@
-package com.snake1999.myserver.test.core;
+package com.snake1999.myserver.test;
 
-import com.snake1999.myserver.core.BlockIdentifier;
+import com.snake1999.myserver.api.BlockIdentifier;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,9 +18,9 @@ class BlockIdentifierTest {
 
   @BeforeAll
   static void buildUp() {
-    id1 = BlockIdentifier.ofStringId("my_category:my_block");
-    id2 = BlockIdentifier.ofStringId("my_category:my_block");
-    id3 = BlockIdentifier.ofStringId("my_category:my_block_2");
+    id1 = BlockIdentifier.of("my_category:my_block", 255);
+    id2 = BlockIdentifier.of("my_category:my_block", 255);
+    id3 = BlockIdentifier.of("my_category:my_block_2", 10);
   }
 
   @DisplayName("equals")
@@ -37,7 +37,7 @@ class BlockIdentifierTest {
   @DisplayName("toString")
   @Test
   void testToString() {
-    assertEquals("BlockIdentifier[my_category:my_block]", id1.toString());
+    assertEquals(id2.toString(), id1.toString());
   }
 
   @DisplayName("hashCode")
@@ -45,14 +45,14 @@ class BlockIdentifierTest {
   void testHashcode() {
     assertAll(
             () -> assertEquals(id2.hashCode(), id1.hashCode()),
-            () -> assertEquals(BlockIdentifier.ofStringId("my_category:my_block_2").hashCode(), id3.hashCode())
+            () -> assertEquals(BlockIdentifier.of("my_category:my_block_2", 10).hashCode(), id3.hashCode())
     );
   }
 
-  @DisplayName("stringId")
+  @DisplayName("stringId and integerMeta")
   @Test
-  void testStringId() {
-    assertEquals("my_category:my_block", id2.stringId());
+  void testStringIdAndIntegerMeta() {
+    assertEquals("my_category:my_block:255", String.format("%s:%d", id2.stringId(), id2.integerMeta()));
   }
 
 }

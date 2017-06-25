@@ -1,14 +1,13 @@
-package com.snake1999.myserver.test.core;
+package com.snake1999.myserver.test;
 
-import com.snake1999.myserver.core.BlockPosition;
-import com.snake1999.myserver.core.BlockRegion;
+import com.snake1999.myserver.api.BlockPosition;
+import com.snake1999.myserver.api.BlockRegion;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.Set;
 import java.util.stream.Stream;
 
 /**
