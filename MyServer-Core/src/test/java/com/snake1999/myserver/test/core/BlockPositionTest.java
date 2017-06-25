@@ -1,4 +1,4 @@
-package com.snake1999.myserver.test;
+package com.snake1999.myserver.test.core;
 
 import com.snake1999.myserver.api.BlockPosition;
 import com.snake1999.myserver.api.Dimension;
@@ -48,7 +48,7 @@ class BlockPositionTest {
 
   @DisplayName("getX getY and getZ")
   @Test
-  void testGetXYZ() {
+  void testGetter() {
     assertEquals(String.format("x=%d, y=%d, z=%d", p3.getBlockX(), p3.getBlockY(), p3.getBlockZ()),
             "x=10, y=5, z=7");
   }

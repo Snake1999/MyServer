@@ -1,4 +1,4 @@
-package com.snake1999.myserver.test;
+package com.snake1999.myserver.test.core;
 
 import com.snake1999.myserver.api.BlockPosition;
 import com.snake1999.myserver.api.BlockRegion;

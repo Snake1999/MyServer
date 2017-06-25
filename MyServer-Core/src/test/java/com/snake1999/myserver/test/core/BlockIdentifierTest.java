@@ -1,4 +1,4 @@
-package com.snake1999.myserver.test;
+package com.snake1999.myserver.test.core;
 
 import com.snake1999.myserver.api.BlockIdentifier;
 import org.junit.jupiter.api.BeforeAll;
