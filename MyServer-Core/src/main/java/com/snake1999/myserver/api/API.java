@@ -13,6 +13,7 @@ import static com.snake1999.myserver.api.API.Usage.BLEEDING;
  *
  * @see Usage
  * @see Definition
+ * @author Lin Mulan
  */
 @Retention(RetentionPolicy.SOURCE)
 @Target({ElementType.CONSTRUCTOR, ElementType.METHOD, ElementType.ANNOTATION_TYPE, ElementType.TYPE})

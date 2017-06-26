@@ -13,6 +13,7 @@
         <module>MyServer-Core</module>
         <module>MyServer-Protocol-MCPE-113</module>
         <module>MyServer-Instance-Forbidden</module>
+        <module>MyServer-Client-RakNet</module>
     </modules>
 
     <properties>
