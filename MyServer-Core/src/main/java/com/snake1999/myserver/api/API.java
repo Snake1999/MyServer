@@ -18,6 +18,7 @@ import static com.snake1999.myserver.api.API.Usage.BLEEDING;
 @Retention(RetentionPolicy.SOURCE)
 @Target({ElementType.CONSTRUCTOR, ElementType.METHOD, ElementType.ANNOTATION_TYPE, ElementType.TYPE})
 @API(usage = BLEEDING, definition = UNIVERSAL)
+@SuppressWarnings("unused")
 public @interface API {
 
   /**
