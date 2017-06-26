@@ -1,13 +1,9 @@
 package com.snake1999.myserver.api;
 
-import static com.snake1999.myserver.api.API.Definition.INTERNAL;
-import static com.snake1999.myserver.api.API.Usage.BLEEDING;
-
 /**
  * By lmlstarqaq http://snake1999.com/
  * Creation time: 2017/5/19 13:06.
  */
-@API(usage = BLEEDING, definition = INTERNAL)
 final class Messages {
 
   static String block_exact_can_not_be_null = "BlockExact can not be null";
