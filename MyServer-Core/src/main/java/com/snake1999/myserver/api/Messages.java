@@ -6,9 +6,7 @@ package com.snake1999.myserver.api;
  */
 final class Messages {
 
-  static String block_exact_can_not_be_null = "BlockExact can not be null";
   static String block_identifier_can_not_be_null = "BlockIdentifier can not be null";
-  static String block_located_can_not_be_null = "BlockLocated can not be null";
   static String block_position_can_not_be_null = "BlockPosition can not be null";
   static String block_region_can_not_be_null = "BlockRegion can not be null";
   static String dimension_can_not_be_null = "Dimension can not be null";

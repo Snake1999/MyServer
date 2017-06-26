@@ -10,6 +10,9 @@ import static com.snake1999.myserver.api.API.Usage.BLEEDING;
 
 /**
  * Describes an API element.
+ *
+ * @see Usage
+ * @see Definition
  */
 @Retention(RetentionPolicy.SOURCE)
 @Target({ElementType.CONSTRUCTOR, ElementType.METHOD, ElementType.ANNOTATION_TYPE, ElementType.TYPE})
@@ -51,7 +54,7 @@ public @interface API {
     DEPRECATED,
 
     /**
-     * Intended for features in drafts and should only be used for tests.
+     * Intended for features in drafts. Should only be used for tests.
      *
      * <p>Might contains notable new features, but will be moved to a new package before remarking to {@link #BLEEDING}.
      * Could be unsafe, might be removed without prior notice. Warnings will be send if used.
@@ -59,7 +62,7 @@ public @interface API {
     INCUBATING,
 
     /**
-     * Intended for features in early development and should only be used for tests.
+     * Intended for features in early development. Should only be used for tests.
      *
      * <p>Might be unwrapped, unsafe or have unchecked parameters.
      * Further contribution was demanded to enhance, strengthen or simplify before remarking to {@link #EXPERIMENTAL}.
